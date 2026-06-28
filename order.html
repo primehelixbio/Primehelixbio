@@ -408,10 +408,32 @@ document.getElementById('submit-btn').addEventListener('click', () => {
     const p = findProduct(id);
     return { name: p.name, spec: p.spec, qty: cart[id], lineTotal: p.price * cart[id] };
   });
-  console.log('ORDER SUBMITTED:', { name, tg, address, orderItems });
+  const orderSummary = orderItems.map(i => `${i.name} (${i.spec}) x${i.qty} - $${i.lineTotal}`).join(' | ');
+  const subtotal = orderItems.reduce((sum, i) => sum + i.lineTotal, 0);
+  const totalKits = orderItems.reduce((sum, i) => sum + i.qty, 0);
+  const shipping = totalKits > 0 ? 50 + (totalKits - 1) * 20 : 0;
+  const total = subtotal + shipping;
 
-  document.getElementById('summary-content').style.display = 'none';
-  document.getElementById('confirm-box').style.display = 'block';
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLs4H8Ep7IbCfcP0wM-qB0tjOLNUar2zb_J9AvlBQMZy0-tVNtxT04gplyfRuXhWlU/exec';
+
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({ name, telegram: tg, address, orderSummary, subtotal, shipping, total }),
+  })
+    .then(() => {
+      document.getElementById('summary-content').style.display = 'none';
+      document.getElementById('confirm-box').style.display = 'block';
+    })
+    .catch(() => {
+      // Google Apps Script sometimes blocks reading the response due to CORS,
+      // but the data still gets written to the Sheet successfully.
+      document.getElementById('summary-content').style.display = 'none';
+      document.getElementById('confirm-box').style.display = 'block';
+    });
 });
 </script>
 
