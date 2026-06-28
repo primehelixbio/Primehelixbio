@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prime Helix Bio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap');
+
+  :root{
+    --bg:#0a0e14;
+    --bg2:#0d131a;
+    --line:#1c252e;
+    --green:#00e6a8;
+    --amber:#ffb020;
+    --slate:#8fa3ad;
+    --white:#f4f7f8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--white);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+  }
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .display{font-family:'Archivo',sans-serif;font-weight:900;}
+
+  a{color:inherit;text-decoration:none;}
+  button{cursor:pointer;}
+
+  /* NAV */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:20px 6%;
+    background:rgba(10,14,20,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .logo{font-family:'Archivo',sans-serif;font-weight:900;font-size:18px;letter-spacing:0.5px;}
+  .logo span{color:var(--green);}
+  .nav-cta{
+    background:var(--green); color:#06120e; font-weight:700; font-size:14px;
+    padding:10px 20px; border-radius:6px; border:none; font-family:'Inter',sans-serif;
+  }
+
+  /* HERO */
+  .hero{
+    min-height:100vh;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:140px 6% 80px;
+    position:relative;
+  }
+  .hero-bg-grid{
+    position:absolute; inset:0; z-index:0; opacity:0.4;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:48px 48px;
+    mask-image:radial-gradient(ellipse 60% 50% at 50% 30%, black 0%, transparent 100%);
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace; color:var(--green); font-size:13px;
+    letter-spacing:2px; text-transform:uppercase; margin-bottom:24px;
+    display:flex; align-items:center; gap:10px; position:relative; z-index:1;
+  }
+  .eyebrow::before{content:''; width:8px;height:8px;background:var(--green);border-radius:50%; box-shadow:0 0 12px var(--green); animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+  .hero h1{
+    font-size:clamp(40px,7vw,84px); line-height:0.98; letter-spacing:-1px;
+    max-width:900px; position:relative; z-index:1;
+  }
+  .hero h1 .accent{color:var(--green);}
+  .hero-sub{
+    font-size:18px; color:var(--slate); max-width:560px; margin-top:28px; line-height:1.6;
+    position:relative; z-index:1;
+  }
+
+  /* PRICE TICKER - signature element */
+  .price-strip{
+    margin-top:48px; display:inline-flex; align-items:center; gap:0;
+    background:var(--bg2); border:1px solid var(--line); border-radius:10px;
+    padding:20px 28px; position:relative; z-index:1;
+    font-family:'JetBrains Mono',monospace;
+  }
+  .price-block{text-align:center; padding:0 24px;}
+  .price-label{font-size:11px; color:var(--slate); letter-spacing:1.5px; text-transform:uppercase;}
+  .price-val{font-size:32px; font-weight:700; margin-top:6px;}
+  .price-val.clinic{color:#5a6b78; text-decoration:line-through;}
+  .price-val.ours{color:var(--green);}
+  .price-arrow{color:var(--amber); font-size:24px; padding:0 16px;}
+  .price-divider{width:1px; height:50px; background:var(--line);}
+
+  .hero-ctas{margin-top:44px; display:flex; gap:16px; flex-wrap:wrap; position:relative; z-index:1;}
+  .btn-primary{
+    background:var(--green); color:#06120e; font-weight:700; font-size:15px;
+    padding:16px 32px; border-radius:8px; border:none; font-family:'Inter',sans-serif;
+    transition:transform 0.15s ease;
+  }
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-secondary{
+    background:transparent; color:var(--white); font-weight:600; font-size:15px;
+    padding:16px 32px; border-radius:8px; border:1px solid var(--line); font-family:'Inter',sans-serif;
+  }
+
+  /* WHY SECTION */
+  .section{padding:100px 6%; border-top:1px solid var(--line);}
+  .section-head{margin-bottom:56px; max-width:680px;}
+  .section-tag{font-family:'JetBrains Mono',monospace; color:var(--amber); font-size:13px; letter-spacing:2px; text-transform:uppercase;}
+  .section-title{font-size:clamp(28px,4vw,44px); margin-top:14px; letter-spacing:-0.5px;}
+  .section-desc{color:var(--slate); font-size:16px; margin-top:16px; line-height:1.6;}
+
+  .why-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden;}
+  .why-card{background:var(--bg2); padding:36px 28px;}
+  .why-num{font-family:'JetBrains Mono',monospace; color:var(--green); font-size:13px; letter-spacing:1px;}
+  .why-card h3{font-size:20px; margin-top:16px; font-weight:700;}
+  .why-card p{color:var(--slate); font-size:14px; margin-top:10px; line-height:1.6;}
+
+  /* CATEGORIES */
+  .cat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px;}
+  .cat-card{
+    background:var(--bg2); border:1px solid var(--line); border-radius:10px;
+    padding:28px 22px; transition:border-color 0.2s ease;
+  }
+  .cat-card:hover{border-color:var(--green);}
+  .cat-dot{width:10px;height:10px;border-radius:50%; margin-bottom:18px;}
+  .cat-card h4{font-size:17px; font-weight:700;}
+  .cat-card p{color:var(--slate); font-size:13px; margin-top:8px; line-height:1.5;}
+
+  /* HOW IT WORKS */
+  .steps{display:flex; flex-direction:column; gap:0;}
+  .step{
+    display:flex; gap:28px; padding:32px 0; border-bottom:1px solid var(--line); align-items:flex-start;
+  }
+  .step:last-child{border-bottom:none;}
+  .step-num{
+    font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--green);
+    border:1px solid var(--line); border-radius:50%; width:44px; height:44px;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .step-text h4{font-size:19px; font-weight:700;}
+  .step-text p{color:var(--slate); font-size:14px; margin-top:6px; max-width:520px; line-height:1.6;}
+
+  /* CTA FOOTER */
+  .cta-section{
+    text-align:center; padding:120px 6%; border-top:1px solid var(--line);
+    background:linear-gradient(180deg, transparent, rgba(0,230,168,0.04));
+  }
+  .cta-section h2{font-size:clamp(32px,5vw,56px); letter-spacing:-1px; max-width:700px; margin:0 auto;}
+  .cta-section p{color:var(--slate); margin-top:18px; font-size:16px;}
+  .cta-section .btn-primary{margin-top:36px; font-size:17px; padding:18px 40px;}
+
+  footer{
+    padding:32px 6%; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:13px; color:var(--slate); font-family:'JetBrains Mono',monospace;
+  }
+
+  @media(max-width:900px){
+    .why-grid{grid-template-columns:1fr;}
+    .cat-grid{grid-template-columns:repeat(2,1fr);}
+    .price-strip{flex-wrap:wrap; gap:16px;}
+    .price-divider{display:none;}
+    footer{flex-direction:column; gap:10px; text-align:center;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">PRIME HELIX <span>BIO</span></div>
+  <a href="#join"><button class="nav-cta">Join Now</button></a>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="eyebrow">Direct sourcing &middot; No clinic markup</div>
+  <h1 class="display">Skip the markup.<br>Source <span class="accent">direct.</span></h1>
+  <p class="hero-sub">A private community for people who'd rather pay for the product than the overhead. Research peptides, sourced directly, priced honestly.</p>
+
+  <div class="price-strip">
+    <div class="price-block">
+      <div class="price-label">Clinic Price</div>
+      <div class="price-val clinic mono">$300/mo</div>
+    </div>
+    <div class="price-arrow">&#8594;</div>
+    <div class="price-divider"></div>
+    <div class="price-block">
+      <div class="price-label">Direct Source</div>
+      <div class="price-val ours mono">$72/mo</div>
+    </div>
+  </div>
+
+  <div class="hero-ctas">
+    <a href="#join"><button class="btn-primary">Get Access on Telegram</button></a>
+    <a href="#how"><button class="btn-secondary">How It Works</button></a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div class="section-tag mono">Why Direct</div>
+    <h2 class="section-title display">The markup was never the product.</h2>
+    <p class="section-desc">Clinics charge for the office, the staff, the brand. We cut straight to the source — same compounds, none of the overhead.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-num mono">01</div>
+      <h3>No Middleman</h3>
+      <p>Sourced directly, no clinic, no pharmacy markup stacked on top of the actual product cost.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num mono">02</div>
+      <h3>Real Community</h3>
+      <p>A private group of people actually using this stuff — not a storefront, not a script.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num mono">03</div>
+      <h3>Ships Discreetly</h3>
+      <p>Domestic and international options, tracked, no surprises at your door.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div class="section-tag mono">What's Available</div>
+    <h2 class="section-title display">Five categories. One source.</h2>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card">
+      <div class="cat-dot" style="background:#00e6a8;"></div>
+      <h4>Weight Loss</h4>
+      <p>GLP-1 family compounds for fat loss support</p>
+    </div>
+    <div class="cat-card">
+      <div class="cat-dot" style="background:#a78bfa;"></div>
+      <h4>Recovery</h4>
+      <p>Tissue and joint repair support for training</p>
+    </div>
+    <div class="cat-card">
+      <div class="cat-dot" style="background:#ffb020;"></div>
+      <h4>Tanning</h4>
+      <p>Melanotan and cognitive support compounds</p>
+    </div>
+    <div class="cat-card">
+      <div class="cat-dot" style="background:#ff6b9d;"></div>
+      <h4>Longevity</h4>
+      <p>Anti-aging and cellular health compounds</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="how">
+  <div class="section-head">
+    <div class="section-tag mono">How It Works</div>
+    <h2 class="section-title display">Three steps. No checkout maze.</h2>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num mono">1</div>
+      <div class="step-text">
+        <h4>Submit your order</h4>
+        <p>Fill out what you're looking for below — no account, no password, takes under a minute.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num mono">2</div>
+      <div class="step-text">
+        <h4>Connect on Telegram</h4>
+        <p>You'll get a button straight to our Telegram to confirm details and pick a payment method.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num mono">3</div>
+      <div class="step-text">
+        <h4>Ships to your door</h4>
+        <p>Tracked shipping, discreet packaging, updates the whole way.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="join">
+  <h2 class="display">Ready to stop overpaying?</h2>
+  <p>Join the private group — no spam, no pressure, just direct access.</p>
+  <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+    <a href="order.html"><button class="btn-primary">Place an Order</button></a>
+    <a href="https://t.me/primehelixbio" target="_blank"><button class="btn-secondary">Just Have Questions? Message Us</button></a>
+  </div>
+</section>
+
+<footer>
+  <div>PRIME HELIX BIO</div>
+  <div>&copy; 2026 &middot; Research use only</div>
+</footer>
+
+</body>
+</html>

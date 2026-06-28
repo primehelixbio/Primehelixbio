@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prime Helix Bio — Order</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap');
+
+  :root{
+    --bg:#0a0e14; --bg2:#0d131a; --line:#1c252e;
+    --green:#00e6a8; --amber:#ffb020; --slate:#8fa3ad; --white:#f4f7f8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg); color:var(--white); font-family:'Inter',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .display{font-family:'Archivo',sans-serif;font-weight:900;}
+  a{color:inherit;text-decoration:none;}
+  button{cursor:pointer;}
+
+  nav{
+    position:sticky; top:0; z-index:50;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:18px 6%; background:rgba(10,14,20,0.92); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .logo{font-family:'Archivo',sans-serif;font-weight:900;font-size:17px;}
+  .logo span{color:var(--green);}
+  .back-link{font-size:13px; color:var(--slate); font-family:'JetBrains Mono',monospace;}
+
+  .layout{
+    display:grid; grid-template-columns:1fr 380px; gap:0;
+    max-width:1280px; margin:0 auto;
+  }
+
+  .order-col{padding:48px 5% 80px;}
+  .page-eyebrow{font-family:'JetBrains Mono',monospace; color:var(--green); font-size:12px; letter-spacing:2px; text-transform:uppercase;}
+  .page-title{font-size:clamp(28px,4vw,42px); margin-top:12px; letter-spacing:-0.5px;}
+  .page-sub{color:var(--slate); font-size:15px; margin-top:10px; max-width:480px; line-height:1.6;}
+
+  .category{margin-top:44px;}
+  .category-head{display:flex; align-items:center; gap:10px; margin-bottom:16px;}
+  .category-dot{width:9px;height:9px;border-radius:50%;}
+  .category-title{font-size:18px; font-weight:700;}
+
+  .product-row{
+    display:grid; grid-template-columns:1fr auto auto; align-items:center;
+    gap:16px; padding:16px 18px; background:var(--bg2);
+    border:1px solid var(--line); border-radius:8px; margin-bottom:8px;
+  }
+  .product-info .name{font-size:15px; font-weight:600; display:flex; align-items:center; gap:8px;}
+  .code-badge{
+    font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; color:var(--green);
+    background:rgba(0,230,168,0.1); border:1px solid rgba(0,230,168,0.25);
+    padding:2px 7px; border-radius:4px; letter-spacing:0.5px;
+  }
+  .product-info .spec{font-size:12px; color:var(--slate); margin-top:3px; font-family:'JetBrains Mono',monospace;}
+  .product-price{font-family:'JetBrains Mono',monospace; font-size:15px; color:var(--green); white-space:nowrap;}
+  .qty-control{display:flex; align-items:center; gap:10px;}
+  .qty-btn{
+    width:28px; height:28px; border-radius:6px; border:1px solid var(--line);
+    background:transparent; color:var(--white); font-size:16px; font-family:'JetBrains Mono',monospace;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .qty-btn:hover{border-color:var(--green); color:var(--green);}
+  .qty-val{font-family:'JetBrains Mono',monospace; font-size:15px; min-width:20px; text-align:center;}
+
+  /* SIDEBAR */
+  .summary-col{
+    background:var(--bg2); border-left:1px solid var(--line);
+    padding:40px 32px; position:sticky; top:65px; height:fit-content;
+    max-height:calc(100vh - 65px); overflow-y:auto;
+  }
+  .summary-title{font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--slate); font-family:'JetBrains Mono',monospace;}
+  .summary-empty{color:var(--slate); font-size:14px; margin-top:24px; line-height:1.6;}
+
+  .summary-item{
+    display:flex; justify-content:space-between; padding:14px 0;
+    border-bottom:1px solid var(--line); font-size:14px;
+  }
+  .summary-item .iname{font-weight:600;}
+  .summary-item .ispec{color:var(--slate); font-size:12px; margin-top:3px; font-family:'JetBrains Mono',monospace;}
+  .summary-item .iprice{font-family:'JetBrains Mono',monospace;}
+
+  .summary-totals{margin-top:20px; padding-top:16px;}
+  .total-row{display:flex; justify-content:space-between; font-size:14px; padding:6px 0; color:var(--slate);}
+  .total-row.grand{
+    font-size:20px; color:var(--white); font-weight:700; margin-top:10px;
+    padding-top:14px; border-top:1px solid var(--line); font-family:'JetBrains Mono',monospace;
+  }
+  .total-row.grand .val{color:var(--green);}
+  .kit-note{font-size:11px; color:var(--slate); margin-top:8px; line-height:1.5;}
+
+  .form-section{margin-top:28px; padding-top:24px; border-top:1px solid var(--line);}
+  .form-label{font-size:12px; color:var(--slate); margin-bottom:6px; display:block; font-family:'JetBrains Mono',monospace;}
+  .form-input{
+    width:100%; background:var(--bg); border:1px solid var(--line); border-radius:6px;
+    padding:11px 14px; color:var(--white); font-size:14px; margin-bottom:14px; font-family:'Inter',sans-serif;
+  }
+  .form-input:focus{outline:none; border-color:var(--green);}
+  textarea.form-input{resize:vertical; min-height:60px;}
+
+  .submit-btn{
+    width:100%; background:var(--green); color:#06120e; font-weight:700; font-size:15px;
+    padding:16px; border-radius:8px; border:none; margin-top:6px;
+  }
+  .submit-btn:disabled{background:var(--line); color:var(--slate); cursor:not-allowed;}
+
+  .confirm-box{display:none; text-align:center; padding:20px 0;}
+  .confirm-box h3{font-size:19px;}
+  .confirm-box p{color:var(--slate); font-size:14px; margin-top:10px; line-height:1.6;}
+  .tg-btn{
+    display:inline-block; margin-top:18px; background:#229ED9; color:white; font-weight:700;
+    padding:14px 28px; border-radius:8px; font-size:14px;
+  }
+
+  @media(max-width:880px){
+    .layout{grid-template-columns:1fr;}
+    .summary-col{position:relative; top:0; max-height:none; border-left:none; border-top:1px solid var(--line);}
+    .product-row{grid-template-columns:1fr; gap:10px;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">PRIME HELIX <span>BIO</span></div>
+  <a href="index.html" class="back-link">&larr; back to home</a>
+</nav>
+
+<div class="layout">
+
+  <div class="order-col">
+    <div class="page-eyebrow mono">Build Your Order</div>
+    <h1 class="page-title display">Pick what you need.</h1>
+    <p class="page-sub">Browse by category, set quantities, and your total updates live — shipping included, no surprises later.</p>
+
+    <!-- WEIGHT LOSS -->
+    <div class="category">
+      <div class="category-head"><div class="category-dot" style="background:#00e6a8;"></div><div class="category-title">Weight Loss / GLP-1</div></div>
+      <div id="cat-weightloss"></div>
+    </div>
+
+    <!-- GH PEPTIDES -->
+    <div class="category">
+      <div class="category-head"><div class="category-dot" style="background:#a78bfa;"></div><div class="category-title">GH Peptides</div></div>
+      <div id="cat-gh"></div>
+    </div>
+
+    <!-- RECOVERY -->
+    <div class="category">
+      <div class="category-head"><div class="category-dot" style="background:#22d3ee;"></div><div class="category-title">Recovery / Repair</div></div>
+      <div id="cat-recovery"></div>
+    </div>
+
+    <!-- TANNING/COGNITIVE -->
+    <div class="category">
+      <div class="category-head"><div class="category-dot" style="background:#fb923c;"></div><div class="category-title">Tanning / Cognitive / Nootropic</div></div>
+      <div id="cat-tan"></div>
+    </div>
+
+    <!-- LONGEVITY -->
+    <div class="category">
+      <div class="category-head"><div class="category-dot" style="background:#ff6b9d;"></div><div class="category-title">Longevity / Skin / Specialty</div></div>
+      <div id="cat-longevity"></div>
+    </div>
+  </div>
+
+  <div class="summary-col">
+    <div id="summary-content">
+      <div class="summary-title">Your Order</div>
+      <div class="summary-empty" id="empty-msg">No items yet — add a kit from the left to get started.</div>
+      <div id="summary-items"></div>
+
+      <div class="summary-totals" id="totals-block" style="display:none;">
+        <div class="total-row"><span>Subtotal</span><span class="mono" id="subtotal-val">$0</span></div>
+        <div class="total-row"><span>Shipping (<span id="kit-count">0</span> kit<span id="kit-plural">s</span>)</span><span class="mono" id="shipping-val">$0</span></div>
+        <div class="total-row grand"><span>Total</span><span class="mono val" id="grand-val">$0</span></div>
+        <div class="kit-note">First kit ships for $50, each additional kit adds $20.</div>
+      </div>
+
+      <div class="form-section" id="form-block" style="display:none;">
+        <label class="form-label">YOUR NAME</label>
+        <input class="form-input" id="f-name" placeholder="Jane Smith">
+        <label class="form-label">TELEGRAM USERNAME</label>
+        <input class="form-input" id="f-tg" placeholder="@yourusername">
+        <label class="form-label">SHIPPING ADDRESS</label>
+        <textarea class="form-input" id="f-address" placeholder="Street, City, State, ZIP"></textarea>
+        <button class="submit-btn" id="submit-btn">Submit Order</button>
+      </div>
+    </div>
+
+    <div class="confirm-box" id="confirm-box">
+      <h3 class="display">Order received ✓</h3>
+      <p>We've got your order saved. Tap below to message us on Telegram and confirm your payment method.</p>
+      <a href="https://t.me/primehelixbio" target="_blank" class="tg-btn">Message Us on Telegram</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ---- PRODUCT DATA (10 vials per kit, prices from bulk menu) ----
+const products = {
+  weightloss: [
+    {id:'sema15', code:'SEM15', name:'Semaglutide', spec:'15mg × 10v', price:145},
+    {id:'sema20', code:'SM20', name:'Semaglutide', spec:'20mg × 10v', price:170},
+    {id:'sema30', code:'SM30', name:'Semaglutide', spec:'30mg × 10v', price:198},
+    {id:'tirz15', code:'TRZ15', name:'Tirzepatide', spec:'15mg × 10v', price:185},
+    {id:'tirz30', code:'TR30', name:'Tirzepatide', spec:'30mg × 10v', price:202},
+    {id:'tirz50', code:'TR50', name:'Tirzepatide', spec:'50mg × 10v', price:298},
+    {id:'reta10', code:'RT10', name:'Retatrutide', spec:'10mg × 10v', price:202},
+    {id:'reta15', code:'RT15', name:'Retatrutide', spec:'15mg × 10v', price:242},
+    {id:'reta20', code:'RT20', name:'Retatrutide', spec:'20mg × 10v', price:260},
+    {id:'reta30', code:'RT30', name:'Retatrutide', spec:'30mg × 10v', price:288},
+    {id:'reta60', code:'RT60', name:'Retatrutide', spec:'60mg × 10v', price:445},
+    {id:'cagril5', code:'CGL5', name:'Cagrillintide', spec:'5mg × 10v', price:182},
+    {id:'cagril10', code:'CGL10', name:'Cagrillintide', spec:'10mg × 10v', price:288},
+    {id:'cagsema', code:'STACK', name:'Cag5+Sema5', spec:'10mg × 10v', price:210},
+    {id:'aod2', code:'2AD', name:'AOD9604', spec:'2mg × 10v', price:118},
+    {id:'aod5', code:'5AD', name:'AOD9604', spec:'5mg × 10v', price:182},
+    {id:'mazdutide10', code:'MZD10', name:'Mazdutide', spec:'10mg × 10v', price:262},
+    {id:'survo5', code:'SUR5', name:'Survodutide', spec:'5mg × 10v', price:200},
+    {id:'survo10', code:'SUR10', name:'Survodutide', spec:'10mg × 10v', price:358},
+    {id:'adipo5', code:'AP5', name:'Adipotide', spec:'5mg × 10v', price:205},
+  ],
+  gh: [
+    {id:'ipa5', code:'IP5', name:'Ipamorelin', spec:'5mg × 10v', price:165},
+    {id:'ipa10', code:'IP10', name:'Ipamorelin', spec:'10mg × 10v', price:205},
+    {id:'cjcnodac5', code:'CND5', name:'CJC-1295 No DAC', spec:'5mg × 10v', price:165},
+    {id:'cjcnodac10', code:'CND10', name:'CJC-1295 No DAC', spec:'10mg × 10v', price:225},
+    {id:'cjcdac2', code:'CD2', name:'CJC-1295 W/DAC', spec:'2mg × 10v', price:150},
+    {id:'cjcdac5', code:'CD5', name:'CJC-1295 W/DAC', spec:'5mg × 10v', price:210},
+    {id:'cjcipa', code:'STACK', name:'CJC NoDac+IPA', spec:'10mg × 10v', price:262},
+    {id:'tesa2', code:'TSM2', name:'Tesamorelin', spec:'2mg × 10v', price:122},
+    {id:'tesa5', code:'TSM5', name:'Tesamorelin', spec:'5mg × 10v', price:210},
+    {id:'tesa10', code:'TSM10', name:'Tesamorelin', spec:'10mg × 10v', price:312},
+    {id:'sermo5', code:'SMO5', name:'Sermorelin Ace.', spec:'5mg × 10v', price:178},
+    {id:'sermo10', code:'SMO10', name:'Sermorelin Ace.', spec:'10mg × 10v', price:238},
+    {id:'ghrp2_5', code:'G25', name:'GHRP-2 Acetate', spec:'5mg × 10v', price:88},
+    {id:'ghrp2_10', code:'G210', name:'GHRP-2 Acetate', spec:'10mg × 10v', price:128},
+    {id:'ghrp6_5', code:'G65', name:'GHRP-6 Acetate', spec:'5mg × 10v', price:88},
+    {id:'ghrp6_10', code:'G610', name:'GHRP-6 Acetate', spec:'10mg × 10v', price:128},
+    {id:'hgh10', code:'H10', name:'HGH 191AA', spec:'10iu × 10v', price:182},
+    {id:'hgh15', code:'H15', name:'HGH 191AA', spec:'15iu × 10v', price:210},
+    {id:'hgh24', code:'H24', name:'HGH 191AA', spec:'24iu × 10v', price:262},
+    {id:'hgh36', code:'H36', name:'HGH 191AA', spec:'36iu × 10v', price:298},
+  ],
+  recovery: [
+    {id:'bpc5', code:'BC5', name:'BPC-157', spec:'5mg × 10v', price:108},
+    {id:'bpc10', code:'BC10', name:'BPC-157', spec:'10mg × 10v', price:165},
+    {id:'tb5', code:'BT5', name:'TB500', spec:'5mg × 10v', price:135},
+    {id:'tb10', code:'BT10', name:'TB500', spec:'10mg × 10v', price:210},
+    {id:'stack10', code:'STACK', name:'BPC5mg+TB5mg', spec:'10mg × 10v', price:200},
+    {id:'stack20', code:'STACK', name:'BPC10mg+TB10mg', spec:'20mg × 10v', price:278},
+    {id:'nad500', code:'NJ500', name:'NAD+', spec:'500mg × 10v', price:182},
+    {id:'nad1000', code:'NJ1000', name:'NAD+', spec:'1000mg × 10v', price:288},
+  ],
+  tan: [
+    {id:'pt141', code:'P41', name:'PT-141', spec:'10mg × 10v', price:118},
+    {id:'mt1', code:'MT1', name:'Melanotan-1', spec:'10mg × 10v', price:168},
+    {id:'mt2', code:'ML10', name:'MT-2', spec:'10mg × 10v', price:158},
+    {id:'kiss5', code:'KS5', name:'KissPeptin-10', spec:'5mg × 10v', price:122},
+    {id:'kiss10', code:'KS10', name:'KissPeptin-10', spec:'10mg × 10v', price:192},
+    {id:'oxy2', code:'OT2', name:'Oxytocin Acetate', spec:'2mg × 10v', price:78},
+    {id:'oxy5', code:'OT5', name:'Oxytocin Acetate', spec:'5mg × 10v', price:118},
+    {id:'selank5', code:'SK5', name:'Selank', spec:'5mg × 10v', price:100},
+    {id:'selank10', code:'SK10', name:'Selank', spec:'10mg × 10v', price:145},
+    {id:'semax5', code:'XA5', name:'Semax', spec:'5mg × 10v', price:100},
+    {id:'semax10', code:'XA10', name:'Semax', spec:'10mg × 10v', price:145},
+    {id:'dsip5', code:'DS5', name:'DSIP', spec:'5mg × 10v', price:88},
+    {id:'dsip10', code:'DS10', name:'DSIP', spec:'10mg × 10v', price:165},
+    {id:'amq5', code:'5AM', name:'5-Amino-1MQ', spec:'5mg × 10v', price:145},
+    {id:'amq50', code:'50AM', name:'5-Amino-1MQ', spec:'50mg × 10v', price:205},
+  ],
+  longevity: [
+    {id:'epi10', code:'ET10', name:'Epithalon', spec:'10mg × 10v', price:145},
+    {id:'epi50', code:'ET50', name:'Epithalon', spec:'50mg × 10v', price:258},
+    {id:'ss31', code:'2S10', name:'SS-31', spec:'10mg × 10v', price:198},
+    {id:'ta5', code:'TA5', name:'Thymosin Alpha-1', spec:'5mg × 10v', price:182},
+    {id:'ta10', code:'TA10', name:'Thymosin Alpha-1', spec:'10mg × 10v', price:262},
+    {id:'mots10', code:'MS10', name:'MOTS-c', spec:'10mg × 10v', price:158},
+    {id:'mots40', code:'MS40', name:'MOTS-c', spec:'40mg × 10v', price:298},
+    {id:'foxo4', code:'NEW', name:'FOXO4', spec:'10mg × 10v', price:388},
+    {id:'ll37', code:'375', name:'LL37', spec:'5mg × 10v', price:158},
+    {id:'ghk50', code:'CU50', name:'GHK-CU', spec:'50mg × 10v', price:108},
+    {id:'ghk100', code:'CU100', name:'GHK-CU', spec:'100mg × 10v', price:182},
+    {id:'klow', code:'STACK', name:'KLOW Stack', spec:'80mg × 10v', price:352},
+    {id:'glow', code:'STACK', name:'GLOW Stack', spec:'70mg × 10v', price:305},
+    {id:'slupp', code:'NEW', name:'SLU-PP-322', spec:'5mg × 10v', price:200},
+    {id:'kpv', code:'KPV10', name:'Lysine-Pro-Val', spec:'10mg × 10v', price:165},
+    {id:'aicar', code:'AR50', name:'AICAR', spec:'50mg × 10v', price:100},
+    {id:'igf1', code:'IG1', name:'IGF-1 LR3', spec:'1mg × 10v', price:298},
+    {id:'hexa', code:'HX5', name:'Hexarelin', spec:'5mg × 10v', price:118},
+    {id:'thymalin', code:'TY10', name:'Thymalin', spec:'10mg × 10v', price:88},
+    {id:'glut', code:'GT600', name:'Glutathione', spec:'600mg × 10v', price:78},
+    {id:'hcg5k', code:'G5K', name:'HCG', spec:'5000iu × 10v', price:205},
+    {id:'hcg10k', code:'G10K', name:'HCG', spec:'10kiu × 10v', price:298},
+    {id:'vip10', code:'VIP10', name:'VIP10', spec:'10mg × 10v', price:228},
+    {id:'pin5', code:'PI5', name:'Pinealon', spec:'5mg × 10v', price:100},
+    {id:'pin10', code:'PI10', name:'Pinealon', spec:'10mg × 10v', price:138},
+  ],
+};
+
+const cart = {};
+
+function renderCategory(key, list){
+  const el = document.getElementById('cat-' + (key==='weightloss'?'weightloss':key));
+  el.innerHTML = list.map(p => `
+    <div class="product-row">
+      <div class="product-info">
+        <div class="name"><span class="code-badge">${p.code}</span>${p.name}</div>
+        <div class="spec">${p.spec}</div>
+      </div>
+      <div class="product-price">$${p.price}</div>
+      <div class="qty-control">
+        <button class="qty-btn" onclick="changeQty('${p.id}',-1)">-</button>
+        <div class="qty-val" id="qty-${p.id}">0</div>
+        <button class="qty-btn" onclick="changeQty('${p.id}',1)">+</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+renderCategory('weightloss', products.weightloss);
+renderCategory('gh', products.gh);
+renderCategory('recovery', products.recovery);
+renderCategory('tan', products.tan);
+renderCategory('longevity', products.longevity);
+
+function findProduct(id){
+  for(const cat in products){
+    const found = products[cat].find(p=>p.id===id);
+    if(found) return found;
+  }
+}
+
+function changeQty(id, delta){
+  const current = cart[id] || 0;
+  const next = Math.max(0, current + delta);
+  cart[id] = next;
+  document.getElementById('qty-' + id).textContent = next;
+  updateSummary();
+}
+
+function updateSummary(){
+  const items = Object.keys(cart).filter(id => cart[id] > 0);
+  const emptyMsg = document.getElementById('empty-msg');
+  const itemsBlock = document.getElementById('summary-items');
+  const totalsBlock = document.getElementById('totals-block');
+  const formBlock = document.getElementById('form-block');
+
+  if(items.length === 0){
+    emptyMsg.style.display = 'block';
+    itemsBlock.innerHTML = '';
+    totalsBlock.style.display = 'none';
+    formBlock.style.display = 'none';
+    return;
+  }
+
+  emptyMsg.style.display = 'none';
+  totalsBlock.style.display = 'block';
+  formBlock.style.display = 'block';
+
+  let subtotal = 0;
+  let totalKits = 0;
+
+  itemsBlock.innerHTML = items.map(id => {
+    const p = findProduct(id);
+    const qty = cart[id];
+    const lineTotal = p.price * qty;
+    subtotal += lineTotal;
+    totalKits += qty;
+    return `
+      <div class="summary-item">
+        <div>
+          <div class="iname"><span class="code-badge" style="font-size:9px;">${p.code}</span>${p.name} ${qty > 1 ? '×' + qty : ''}</div>
+          <div class="ispec">${p.spec}</div>
+        </div>
+        <div class="iprice">$${lineTotal}</div>
+      </div>
+    `;
+  }).join('');
+
+  const shipping = totalKits > 0 ? 50 + (totalKits - 1) * 20 : 0;
+  const grand = subtotal + shipping;
+
+  document.getElementById('subtotal-val').textContent = '$' + subtotal;
+  document.getElementById('shipping-val').textContent = '$' + shipping;
+  document.getElementById('grand-val').textContent = '$' + grand;
+  document.getElementById('kit-count').textContent = totalKits;
+  document.getElementById('kit-plural').textContent = totalKits === 1 ? '' : 's';
+}
+
+document.getElementById('submit-btn').addEventListener('click', () => {
+  const name = document.getElementById('f-name').value.trim();
+  const tg = document.getElementById('f-tg').value.trim();
+  const address = document.getElementById('f-address').value.trim();
+
+  if(!name || !tg || !address){
+    alert('Please fill in your name, Telegram username, and shipping address.');
+    return;
+  }
+
+  // ---- This is where the Google Sheet submission will go ----
+  // Placeholder for now — logs to console so you can see the data shape
+  const orderItems = Object.keys(cart).filter(id => cart[id] > 0).map(id => {
+    const p = findProduct(id);
+    return { name: p.name, spec: p.spec, qty: cart[id], lineTotal: p.price * cart[id] };
+  });
+  console.log('ORDER SUBMITTED:', { name, tg, address, orderItems });
+
+  document.getElementById('summary-content').style.display = 'none';
+  document.getElementById('confirm-box').style.display = 'block';
+});
+</script>
+
+</body>
+</html>
