@@ -69,6 +69,15 @@
   .eyebrow::before{content:''; width:8px;height:8px;background:var(--green);border-radius:50%; box-shadow:0 0 12px var(--green); animation:pulse 2s infinite;}
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
 
+  .ship-badge{
+    display:inline-flex; align-items:center; gap:10px;
+    background:rgba(255,176,32,0.08); border:1px solid rgba(255,176,32,0.3);
+    color:var(--amber); font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700;
+    padding:8px 16px; border-radius:20px; margin-bottom:22px; letter-spacing:0.5px;
+    position:relative; z-index:1; width:fit-content;
+  }
+  .ship-dot{width:6px;height:6px;background:var(--amber);border-radius:50%;}
+
   .hero h1{
     font-size:clamp(40px,7vw,84px); line-height:0.98; letter-spacing:-1px;
     max-width:900px; position:relative; z-index:1;
@@ -178,6 +187,10 @@
 <section class="hero">
   <div class="hero-bg-grid"></div>
   <div class="eyebrow">Direct sourcing &middot; No clinic markup</div>
+  <div class="ship-badge">
+    <span class="ship-dot"></span>
+    4&ndash;7 Day Shipping &middot; Fast & Tracked
+  </div>
   <h1 class="display">Skip the markup.<br>Source <span class="accent">direct.</span></h1>
   <p class="hero-sub">A private community for people who'd rather pay for the product than the overhead. Research peptides, sourced directly, priced honestly.</p>
 
@@ -219,8 +232,8 @@
     </div>
     <div class="why-card">
       <div class="why-num mono">03</div>
-      <h3>Ships Discreetly</h3>
-      <p>Domestic and international options, tracked, no surprises at your door.</p>
+      <h3>4&ndash;7 Day Shipping</h3>
+      <p>Fast and tracked from source to your door — no months-long wait, no guessing where your order is.</p>
     </div>
   </div>
 </section>
