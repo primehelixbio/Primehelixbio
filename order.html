@@ -49,6 +49,10 @@
     border:1px solid var(--line); border-radius:8px; margin-bottom:8px;
   }
   .product-info .name{font-size:15px; font-weight:600; display:flex; align-items:center; gap:8px;}
+  .vial-breakdown{display:flex; align-items:center; gap:10px; margin-top:5px; flex-wrap:wrap;}
+  .per-vial{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--green); font-weight:700;}
+  .clinic-compare{font-size:11px; color:#5a6b78;}
+  .save-tag{color:var(--amber); font-weight:700;}
   .code-badge{
     font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; color:var(--green);
     background:rgba(0,230,168,0.1); border:1px solid rgba(0,230,168,0.25);
@@ -134,6 +138,7 @@
     <div class="page-eyebrow mono">Build Your Order</div>
     <h1 class="page-title display">Pick what you need.</h1>
     <p class="page-sub">Browse by category, set quantities, and your total updates live — shipping included, no surprises later.</p>
+    <a href="quiz.html" style="display:inline-block; margin-top:16px; font-size:13px; color:#00e6a8; font-family:'JetBrains Mono',monospace; border-bottom:1px solid rgba(0,230,168,0.4); padding-bottom:2px;">New here? Take a 30-second quiz to find your starting point &rarr;</a>
 
     <!-- WEIGHT LOSS -->
     <div class="category">
@@ -203,102 +208,102 @@
 // ---- PRODUCT DATA (10 vials per kit, prices from bulk menu) ----
 const products = {
   weightloss: [
-    {id:'sema15', code:'SEM15', name:'Semaglutide', spec:'15mg × 10v', price:145},
-    {id:'sema20', code:'SM20', name:'Semaglutide', spec:'20mg × 10v', price:170},
-    {id:'sema30', code:'SM30', name:'Semaglutide', spec:'30mg × 10v', price:198},
-    {id:'tirz15', code:'TRZ15', name:'Tirzepatide', spec:'15mg × 10v', price:185},
-    {id:'tirz30', code:'TR30', name:'Tirzepatide', spec:'30mg × 10v', price:202},
-    {id:'tirz50', code:'TR50', name:'Tirzepatide', spec:'50mg × 10v', price:298},
-    {id:'reta10', code:'RT10', name:'Retatrutide', spec:'10mg × 10v', price:202},
-    {id:'reta15', code:'RT15', name:'Retatrutide', spec:'15mg × 10v', price:242},
-    {id:'reta20', code:'RT20', name:'Retatrutide', spec:'20mg × 10v', price:260},
-    {id:'reta30', code:'RT30', name:'Retatrutide', spec:'30mg × 10v', price:288},
-    {id:'reta60', code:'RT60', name:'Retatrutide', spec:'60mg × 10v', price:445},
-    {id:'cagril5', code:'CGL5', name:'Cagrillintide', spec:'5mg × 10v', price:182},
-    {id:'cagril10', code:'CGL10', name:'Cagrillintide', spec:'10mg × 10v', price:288},
-    {id:'cagsema', code:'STACK', name:'Cag5+Sema5', spec:'10mg × 10v', price:210},
-    {id:'aod2', code:'2AD', name:'AOD9604', spec:'2mg × 10v', price:118},
-    {id:'aod5', code:'5AD', name:'AOD9604', spec:'5mg × 10v', price:182},
-    {id:'mazdutide10', code:'MZD10', name:'Mazdutide', spec:'10mg × 10v', price:262},
-    {id:'survo5', code:'SUR5', name:'Survodutide', spec:'5mg × 10v', price:200},
-    {id:'survo10', code:'SUR10', name:'Survodutide', spec:'10mg × 10v', price:358},
-    {id:'adipo5', code:'AP5', name:'Adipotide', spec:'5mg × 10v', price:205},
+    {id:'sema15', code:'SEM15', name:'Semaglutide', spec:'15mg × 10v', price:145, clinic:200},
+    {id:'sema20', code:'SM20', name:'Semaglutide', spec:'20mg × 10v', price:170, clinic:200},
+    {id:'sema30', code:'SM30', name:'Semaglutide', spec:'30mg × 10v', price:198, clinic:200},
+    {id:'tirz15', code:'TRZ15', name:'Tirzepatide', spec:'15mg × 10v', price:185, clinic:300},
+    {id:'tirz30', code:'TR30', name:'Tirzepatide', spec:'30mg × 10v', price:202, clinic:300},
+    {id:'tirz50', code:'TR50', name:'Tirzepatide', spec:'50mg × 10v', price:298, clinic:300},
+    {id:'reta10', code:'RT10', name:'Retatrutide', spec:'10mg × 10v', price:202, clinic:400},
+    {id:'reta15', code:'RT15', name:'Retatrutide', spec:'15mg × 10v', price:242, clinic:400},
+    {id:'reta20', code:'RT20', name:'Retatrutide', spec:'20mg × 10v', price:260, clinic:400},
+    {id:'reta30', code:'RT30', name:'Retatrutide', spec:'30mg × 10v', price:288, clinic:400},
+    {id:'reta60', code:'RT60', name:'Retatrutide', spec:'60mg × 10v', price:445, clinic:400},
+    {id:'cagril5', code:'CGL5', name:'Cagrillintide', spec:'5mg × 10v', price:182, clinic:300},
+    {id:'cagril10', code:'CGL10', name:'Cagrillintide', spec:'10mg × 10v', price:288, clinic:300},
+    {id:'cagsema', code:'STACK', name:'Cag5+Sema5', spec:'10mg × 10v', price:210, clinic:300},
+    {id:'aod2', code:'2AD', name:'AOD9604', spec:'2mg × 10v', price:118, clinic:150},
+    {id:'aod5', code:'5AD', name:'AOD9604', spec:'5mg × 10v', price:182, clinic:150},
+    {id:'mazdutide10', code:'MZD10', name:'Mazdutide', spec:'10mg × 10v', price:262, clinic:300},
+    {id:'survo5', code:'SUR5', name:'Survodutide', spec:'5mg × 10v', price:200, clinic:300},
+    {id:'survo10', code:'SUR10', name:'Survodutide', spec:'10mg × 10v', price:358, clinic:300},
+    {id:'adipo5', code:'AP5', name:'Adipotide', spec:'5mg × 10v', price:205, clinic:null},
   ],
   gh: [
-    {id:'ipa5', code:'IP5', name:'Ipamorelin', spec:'5mg × 10v', price:165},
-    {id:'ipa10', code:'IP10', name:'Ipamorelin', spec:'10mg × 10v', price:205},
-    {id:'cjcnodac5', code:'CND5', name:'CJC-1295 No DAC', spec:'5mg × 10v', price:165},
-    {id:'cjcnodac10', code:'CND10', name:'CJC-1295 No DAC', spec:'10mg × 10v', price:225},
-    {id:'cjcdac2', code:'CD2', name:'CJC-1295 W/DAC', spec:'2mg × 10v', price:150},
-    {id:'cjcdac5', code:'CD5', name:'CJC-1295 W/DAC', spec:'5mg × 10v', price:210},
-    {id:'cjcipa', code:'STACK', name:'CJC NoDac+IPA', spec:'10mg × 10v', price:262},
-    {id:'tesa2', code:'TSM2', name:'Tesamorelin', spec:'2mg × 10v', price:122},
-    {id:'tesa5', code:'TSM5', name:'Tesamorelin', spec:'5mg × 10v', price:210},
-    {id:'tesa10', code:'TSM10', name:'Tesamorelin', spec:'10mg × 10v', price:312},
-    {id:'sermo5', code:'SMO5', name:'Sermorelin Ace.', spec:'5mg × 10v', price:178},
-    {id:'sermo10', code:'SMO10', name:'Sermorelin Ace.', spec:'10mg × 10v', price:238},
-    {id:'ghrp2_5', code:'G25', name:'GHRP-2 Acetate', spec:'5mg × 10v', price:88},
-    {id:'ghrp2_10', code:'G210', name:'GHRP-2 Acetate', spec:'10mg × 10v', price:128},
-    {id:'ghrp6_5', code:'G65', name:'GHRP-6 Acetate', spec:'5mg × 10v', price:88},
-    {id:'ghrp6_10', code:'G610', name:'GHRP-6 Acetate', spec:'10mg × 10v', price:128},
-    {id:'hgh10', code:'H10', name:'HGH 191AA', spec:'10iu × 10v', price:182},
-    {id:'hgh15', code:'H15', name:'HGH 191AA', spec:'15iu × 10v', price:210},
-    {id:'hgh24', code:'H24', name:'HGH 191AA', spec:'24iu × 10v', price:262},
-    {id:'hgh36', code:'H36', name:'HGH 191AA', spec:'36iu × 10v', price:298},
+    {id:'ipa5', code:'IP5', name:'Ipamorelin', spec:'5mg × 10v', price:165, clinic:100},
+    {id:'ipa10', code:'IP10', name:'Ipamorelin', spec:'10mg × 10v', price:205, clinic:100},
+    {id:'cjcnodac5', code:'CND5', name:'CJC-1295 No DAC', spec:'5mg × 10v', price:165, clinic:150},
+    {id:'cjcnodac10', code:'CND10', name:'CJC-1295 No DAC', spec:'10mg × 10v', price:225, clinic:150},
+    {id:'cjcdac2', code:'CD2', name:'CJC-1295 W/DAC', spec:'2mg × 10v', price:150, clinic:150},
+    {id:'cjcdac5', code:'CD5', name:'CJC-1295 W/DAC', spec:'5mg × 10v', price:210, clinic:150},
+    {id:'cjcipa', code:'STACK', name:'CJC NoDac+IPA', spec:'10mg × 10v', price:262, clinic:150},
+    {id:'tesa2', code:'TSM2', name:'Tesamorelin', spec:'2mg × 10v', price:122, clinic:200},
+    {id:'tesa5', code:'TSM5', name:'Tesamorelin', spec:'5mg × 10v', price:210, clinic:200},
+    {id:'tesa10', code:'TSM10', name:'Tesamorelin', spec:'10mg × 10v', price:312, clinic:200},
+    {id:'sermo5', code:'SMO5', name:'Sermorelin Ace.', spec:'5mg × 10v', price:178, clinic:150},
+    {id:'sermo10', code:'SMO10', name:'Sermorelin Ace.', spec:'10mg × 10v', price:238, clinic:150},
+    {id:'ghrp2_5', code:'G25', name:'GHRP-2 Acetate', spec:'5mg × 10v', price:88, clinic:100},
+    {id:'ghrp2_10', code:'G210', name:'GHRP-2 Acetate', spec:'10mg × 10v', price:128, clinic:100},
+    {id:'ghrp6_5', code:'G65', name:'GHRP-6 Acetate', spec:'5mg × 10v', price:88, clinic:100},
+    {id:'ghrp6_10', code:'G610', name:'GHRP-6 Acetate', spec:'10mg × 10v', price:128, clinic:100},
+    {id:'hgh10', code:'H10', name:'HGH 191AA', spec:'10iu × 10v', price:182, clinic:400},
+    {id:'hgh15', code:'H15', name:'HGH 191AA', spec:'15iu × 10v', price:210, clinic:400},
+    {id:'hgh24', code:'H24', name:'HGH 191AA', spec:'24iu × 10v', price:262, clinic:400},
+    {id:'hgh36', code:'H36', name:'HGH 191AA', spec:'36iu × 10v', price:298, clinic:400},
   ],
   recovery: [
-    {id:'bpc5', code:'BC5', name:'BPC-157', spec:'5mg × 10v', price:108},
-    {id:'bpc10', code:'BC10', name:'BPC-157', spec:'10mg × 10v', price:165},
-    {id:'tb5', code:'BT5', name:'TB500', spec:'5mg × 10v', price:135},
-    {id:'tb10', code:'BT10', name:'TB500', spec:'10mg × 10v', price:210},
-    {id:'stack10', code:'STACK', name:'BPC5mg+TB5mg', spec:'10mg × 10v', price:200},
-    {id:'stack20', code:'STACK', name:'BPC10mg+TB10mg', spec:'20mg × 10v', price:278},
-    {id:'nad500', code:'NJ500', name:'NAD+', spec:'500mg × 10v', price:182},
-    {id:'nad1000', code:'NJ1000', name:'NAD+', spec:'1000mg × 10v', price:288},
+    {id:'bpc5', code:'BC5', name:'BPC-157', spec:'5mg × 10v', price:108, clinic:80},
+    {id:'bpc10', code:'BC10', name:'BPC-157', spec:'10mg × 10v', price:165, clinic:80},
+    {id:'tb5', code:'BT5', name:'TB500', spec:'5mg × 10v', price:135, clinic:100},
+    {id:'tb10', code:'BT10', name:'TB500', spec:'10mg × 10v', price:210, clinic:100},
+    {id:'stack10', code:'STACK', name:'BPC5mg+TB5mg', spec:'10mg × 10v', price:200, clinic:100},
+    {id:'stack20', code:'STACK', name:'BPC10mg+TB10mg', spec:'20mg × 10v', price:278, clinic:100},
+    {id:'nad500', code:'NJ500', name:'NAD+', spec:'500mg × 10v', price:182, clinic:200},
+    {id:'nad1000', code:'NJ1000', name:'NAD+', spec:'1000mg × 10v', price:288, clinic:200},
   ],
   tan: [
-    {id:'pt141', code:'P41', name:'PT-141', spec:'10mg × 10v', price:118},
-    {id:'mt1', code:'MT1', name:'Melanotan-1', spec:'10mg × 10v', price:168},
-    {id:'mt2', code:'ML10', name:'MT-2', spec:'10mg × 10v', price:158},
-    {id:'kiss5', code:'KS5', name:'KissPeptin-10', spec:'5mg × 10v', price:122},
-    {id:'kiss10', code:'KS10', name:'KissPeptin-10', spec:'10mg × 10v', price:192},
-    {id:'oxy2', code:'OT2', name:'Oxytocin Acetate', spec:'2mg × 10v', price:78},
-    {id:'oxy5', code:'OT5', name:'Oxytocin Acetate', spec:'5mg × 10v', price:118},
-    {id:'selank5', code:'SK5', name:'Selank', spec:'5mg × 10v', price:100},
-    {id:'selank10', code:'SK10', name:'Selank', spec:'10mg × 10v', price:145},
-    {id:'semax5', code:'XA5', name:'Semax', spec:'5mg × 10v', price:100},
-    {id:'semax10', code:'XA10', name:'Semax', spec:'10mg × 10v', price:145},
-    {id:'dsip5', code:'DS5', name:'DSIP', spec:'5mg × 10v', price:88},
-    {id:'dsip10', code:'DS10', name:'DSIP', spec:'10mg × 10v', price:165},
-    {id:'amq5', code:'5AM', name:'5-Amino-1MQ', spec:'5mg × 10v', price:145},
-    {id:'amq50', code:'50AM', name:'5-Amino-1MQ', spec:'50mg × 10v', price:205},
+    {id:'pt141', code:'P41', name:'PT-141', spec:'10mg × 10v', price:118, clinic:100},
+    {id:'mt1', code:'MT1', name:'Melanotan-1', spec:'10mg × 10v', price:168, clinic:100},
+    {id:'mt2', code:'ML10', name:'MT-2', spec:'10mg × 10v', price:158, clinic:100},
+    {id:'kiss5', code:'KS5', name:'KissPeptin-10', spec:'5mg × 10v', price:122, clinic:null},
+    {id:'kiss10', code:'KS10', name:'KissPeptin-10', spec:'10mg × 10v', price:192, clinic:null},
+    {id:'oxy2', code:'OT2', name:'Oxytocin Acetate', spec:'2mg × 10v', price:78, clinic:null},
+    {id:'oxy5', code:'OT5', name:'Oxytocin Acetate', spec:'5mg × 10v', price:118, clinic:null},
+    {id:'selank5', code:'SK5', name:'Selank', spec:'5mg × 10v', price:100, clinic:null},
+    {id:'selank10', code:'SK10', name:'Selank', spec:'10mg × 10v', price:145, clinic:null},
+    {id:'semax5', code:'XA5', name:'Semax', spec:'5mg × 10v', price:100, clinic:null},
+    {id:'semax10', code:'XA10', name:'Semax', spec:'10mg × 10v', price:145, clinic:null},
+    {id:'dsip5', code:'DS5', name:'DSIP', spec:'5mg × 10v', price:88, clinic:null},
+    {id:'dsip10', code:'DS10', name:'DSIP', spec:'10mg × 10v', price:165, clinic:null},
+    {id:'amq5', code:'5AM', name:'5-Amino-1MQ', spec:'5mg × 10v', price:145, clinic:null},
+    {id:'amq50', code:'50AM', name:'5-Amino-1MQ', spec:'50mg × 10v', price:205, clinic:null},
   ],
   longevity: [
-    {id:'epi10', code:'ET10', name:'Epithalon', spec:'10mg × 10v', price:145},
-    {id:'epi50', code:'ET50', name:'Epithalon', spec:'50mg × 10v', price:258},
-    {id:'ss31', code:'2S10', name:'SS-31', spec:'10mg × 10v', price:198},
-    {id:'ta5', code:'TA5', name:'Thymosin Alpha-1', spec:'5mg × 10v', price:182},
-    {id:'ta10', code:'TA10', name:'Thymosin Alpha-1', spec:'10mg × 10v', price:262},
-    {id:'mots10', code:'MS10', name:'MOTS-c', spec:'10mg × 10v', price:158},
-    {id:'mots40', code:'MS40', name:'MOTS-c', spec:'40mg × 10v', price:298},
-    {id:'foxo4', code:'NEW', name:'FOXO4', spec:'10mg × 10v', price:388},
-    {id:'ll37', code:'375', name:'LL37', spec:'5mg × 10v', price:158},
-    {id:'ghk50', code:'CU50', name:'GHK-CU', spec:'50mg × 10v', price:108},
-    {id:'ghk100', code:'CU100', name:'GHK-CU', spec:'100mg × 10v', price:182},
-    {id:'klow', code:'STACK', name:'KLOW Stack', spec:'80mg × 10v', price:352},
-    {id:'glow', code:'STACK', name:'GLOW Stack', spec:'70mg × 10v', price:305},
-    {id:'slupp', code:'NEW', name:'SLU-PP-322', spec:'5mg × 10v', price:200},
-    {id:'kpv', code:'KPV10', name:'Lysine-Pro-Val', spec:'10mg × 10v', price:165},
-    {id:'aicar', code:'AR50', name:'AICAR', spec:'50mg × 10v', price:100},
-    {id:'igf1', code:'IG1', name:'IGF-1 LR3', spec:'1mg × 10v', price:298},
-    {id:'hexa', code:'HX5', name:'Hexarelin', spec:'5mg × 10v', price:118},
-    {id:'thymalin', code:'TY10', name:'Thymalin', spec:'10mg × 10v', price:88},
-    {id:'glut', code:'GT600', name:'Glutathione', spec:'600mg × 10v', price:78},
-    {id:'hcg5k', code:'G5K', name:'HCG', spec:'5000iu × 10v', price:205},
-    {id:'hcg10k', code:'G10K', name:'HCG', spec:'10kiu × 10v', price:298},
-    {id:'vip10', code:'VIP10', name:'VIP10', spec:'10mg × 10v', price:228},
-    {id:'pin5', code:'PI5', name:'Pinealon', spec:'5mg × 10v', price:100},
-    {id:'pin10', code:'PI10', name:'Pinealon', spec:'10mg × 10v', price:138},
+    {id:'epi10', code:'ET10', name:'Epithalon', spec:'10mg × 10v', price:145, clinic:100},
+    {id:'epi50', code:'ET50', name:'Epithalon', spec:'50mg × 10v', price:258, clinic:100},
+    {id:'ss31', code:'2S10', name:'SS-31', spec:'10mg × 10v', price:198, clinic:null},
+    {id:'ta5', code:'TA5', name:'Thymosin Alpha-1', spec:'5mg × 10v', price:182, clinic:150},
+    {id:'ta10', code:'TA10', name:'Thymosin Alpha-1', spec:'10mg × 10v', price:262, clinic:150},
+    {id:'mots10', code:'MS10', name:'MOTS-c', spec:'10mg × 10v', price:158, clinic:null},
+    {id:'mots40', code:'MS40', name:'MOTS-c', spec:'40mg × 10v', price:298, clinic:null},
+    {id:'foxo4', code:'NEW', name:'FOXO4', spec:'10mg × 10v', price:388, clinic:null},
+    {id:'ll37', code:'375', name:'LL37', spec:'5mg × 10v', price:158, clinic:null},
+    {id:'ghk50', code:'CU50', name:'GHK-CU', spec:'50mg × 10v', price:108, clinic:80},
+    {id:'ghk100', code:'CU100', name:'GHK-CU', spec:'100mg × 10v', price:182, clinic:80},
+    {id:'klow', code:'STACK', name:'KLOW Stack', spec:'80mg × 10v', price:352, clinic:null},
+    {id:'glow', code:'STACK', name:'GLOW Stack', spec:'70mg × 10v', price:305, clinic:null},
+    {id:'slupp', code:'NEW', name:'SLU-PP-322', spec:'5mg × 10v', price:200, clinic:null},
+    {id:'kpv', code:'KPV10', name:'Lysine-Pro-Val', spec:'10mg × 10v', price:165, clinic:null},
+    {id:'aicar', code:'AR50', name:'AICAR', spec:'50mg × 10v', price:100, clinic:null},
+    {id:'igf1', code:'IG1', name:'IGF-1 LR3', spec:'1mg × 10v', price:298, clinic:null},
+    {id:'hexa', code:'HX5', name:'Hexarelin', spec:'5mg × 10v', price:118, clinic:null},
+    {id:'thymalin', code:'TY10', name:'Thymalin', spec:'10mg × 10v', price:88, clinic:null},
+    {id:'glut', code:'GT600', name:'Glutathione', spec:'600mg × 10v', price:78, clinic:null},
+    {id:'hcg5k', code:'G5K', name:'HCG', spec:'5000iu × 10v', price:205, clinic:null},
+    {id:'hcg10k', code:'G10K', name:'HCG', spec:'10kiu × 10v', price:298, clinic:null},
+    {id:'vip10', code:'VIP10', name:'VIP10', spec:'10mg × 10v', price:228, clinic:null},
+    {id:'pin5', code:'PI5', name:'Pinealon', spec:'5mg × 10v', price:100, clinic:null},
+    {id:'pin10', code:'PI10', name:'Pinealon', spec:'10mg × 10v', price:138, clinic:null},
   ],
 };
 
@@ -306,20 +311,28 @@ const cart = {};
 
 function renderCategory(key, list){
   const el = document.getElementById('cat-' + (key==='weightloss'?'weightloss':key));
-  el.innerHTML = list.map(p => `
-    <div class="product-row">
-      <div class="product-info">
-        <div class="name"><span class="code-badge">${p.code}</span>${p.name}</div>
-        <div class="spec">${p.spec}</div>
+  el.innerHTML = list.map(p => {
+    const perVial = (p.price / 10).toFixed(2);
+    const save = p.clinic ? (p.clinic - perVial).toFixed(2) : null;
+    const clinicLine = p.clinic
+      ? `<span class="per-vial">$${perVial}/vial</span><span class="clinic-compare">Clinic sourcing: $${p.clinic}+/vial · <span class="save-tag">Save $${save}</span></span>`
+      : `<span class="per-vial">$${perVial}/vial</span>`;
+    return `
+      <div class="product-row">
+        <div class="product-info">
+          <div class="name"><span class="code-badge">${p.code}</span>${p.name}</div>
+          <div class="spec">${p.spec}</div>
+          <div class="vial-breakdown">${clinicLine}</div>
+        </div>
+        <div class="product-price">$${p.price}</div>
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty('${p.id}',-1)">-</button>
+          <div class="qty-val" id="qty-${p.id}">0</div>
+          <button class="qty-btn" onclick="changeQty('${p.id}',1)">+</button>
+        </div>
       </div>
-      <div class="product-price">$${p.price}</div>
-      <div class="qty-control">
-        <button class="qty-btn" onclick="changeQty('${p.id}',-1)">-</button>
-        <div class="qty-val" id="qty-${p.id}">0</div>
-        <button class="qty-btn" onclick="changeQty('${p.id}',1)">+</button>
-      </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 renderCategory('weightloss', products.weightloss);

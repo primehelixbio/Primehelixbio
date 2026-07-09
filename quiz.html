@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prime Helix Bio — Find Your Start</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap');
+
+  :root{
+    --bg:#0a0e14; --bg2:#0d131a; --line:#1c252e;
+    --green:#00e6a8; --amber:#ffb020; --slate:#8fa3ad; --white:#f4f7f8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg); color:var(--white); font-family:'Inter',sans-serif; min-height:100vh;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .display{font-family:'Archivo',sans-serif;font-weight:900;}
+  a{color:inherit;text-decoration:none;}
+  button{cursor:pointer; font-family:inherit;}
+
+  nav{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:20px 6%; border-bottom:1px solid var(--line);
+  }
+  .logo{font-family:'Archivo',sans-serif;font-weight:900;font-size:17px;}
+  .logo span{color:var(--green);}
+  .back-link{font-size:13px; color:var(--slate); font-family:'JetBrains Mono',monospace;}
+
+  .quiz-wrap{
+    max-width:640px; margin:0 auto; padding:60px 6% 100px;
+    min-height:70vh; display:flex; flex-direction:column; justify-content:center;
+  }
+
+  .progress-row{display:flex; gap:6px; margin-bottom:48px;}
+  .progress-seg{flex:1; height:4px; border-radius:2px; background:var(--line); transition:background 0.3s ease;}
+  .progress-seg.done{background:var(--green);}
+
+  .step{display:none;}
+  .step.active{display:block; animation:fadeIn 0.4s ease;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
+
+  .step-eyebrow{font-family:'JetBrains Mono',monospace; color:var(--green); font-size:12px; letter-spacing:2px; text-transform:uppercase;}
+  .step-title{font-size:clamp(26px,4vw,36px); margin-top:14px; letter-spacing:-0.5px; line-height:1.15;}
+  .step-sub{color:var(--slate); font-size:15px; margin-top:12px; line-height:1.6;}
+
+  .options{margin-top:36px; display:flex; flex-direction:column; gap:12px;}
+  .option-card{
+    background:var(--bg2); border:1.5px solid var(--line); border-radius:10px;
+    padding:20px 22px; display:flex; align-items:center; gap:16px;
+    transition:border-color 0.15s ease, transform 0.15s ease;
+  }
+  .option-card:hover{border-color:var(--green); transform:translateX(2px);}
+  .option-card.selected{border-color:var(--green); background:rgba(0,230,168,0.06);}
+  .option-icon{font-size:24px; flex-shrink:0;}
+  .option-text .otitle{font-size:16px; font-weight:700;}
+  .option-text .osub{font-size:13px; color:var(--slate); margin-top:3px;}
+
+  .step-nav{display:flex; justify-content:space-between; margin-top:40px;}
+  .nav-back{font-size:14px; color:var(--slate); font-family:'JetBrains Mono',monospace; background:none; border:none;}
+  .nav-back:hover{color:var(--white);}
+
+  .result-badge{
+    display:inline-flex; align-items:center; gap:8px; background:rgba(0,230,168,0.1);
+    border:1px solid rgba(0,230,168,0.3); color:var(--green); padding:6px 14px;
+    border-radius:20px; font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; letter-spacing:0.5px;
+  }
+  .result-title{font-size:clamp(26px,4vw,36px); margin-top:20px; letter-spacing:-0.5px; line-height:1.2;}
+  .result-sub{color:var(--slate); font-size:15px; margin-top:14px; line-height:1.6;}
+
+  .product-rec{
+    margin-top:32px; background:var(--bg2); border:1px solid var(--line); border-radius:12px;
+    padding:26px; display:flex; justify-content:space-between; align-items:center; gap:16px;
+  }
+  .product-rec .pname{font-size:19px; font-weight:700;}
+  .product-rec .pdesc{font-size:13.5px; color:var(--slate); margin-top:6px; line-height:1.5; max-width:340px;}
+  .product-rec .pcode{
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--green);
+    background:rgba(0,230,168,0.1); border:1px solid rgba(0,230,168,0.25);
+    padding:3px 9px; border-radius:5px; margin-bottom:8px; display:inline-block;
+  }
+
+  .result-ctas{margin-top:36px; display:flex; gap:14px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--green); color:#06120e; font-weight:700; font-size:15px;
+    padding:16px 30px; border-radius:8px; border:none;
+  }
+  .btn-secondary{
+    background:transparent; color:var(--white); font-weight:600; font-size:15px;
+    padding:16px 30px; border-radius:8px; border:1px solid var(--line);
+  }
+
+  .restart-link{display:block; margin-top:28px; font-size:13px; color:var(--slate); font-family:'JetBrains Mono',monospace; text-align:center;}
+  .restart-link:hover{color:var(--white);}
+
+  @media(max-width:600px){
+    .product-rec{flex-direction:column; align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">PRIME HELIX <span>BIO</span></div>
+  <a href="index.html" class="back-link">&larr; back to home</a>
+</nav>
+
+<div class="quiz-wrap">
+
+  <div class="progress-row" id="progress-row">
+    <div class="progress-seg" data-seg="1"></div>
+    <div class="progress-seg" data-seg="2"></div>
+    <div class="progress-seg" data-seg="3"></div>
+  </div>
+
+  <!-- STEP 1: GOAL -->
+  <div class="step active" data-step="1">
+    <div class="step-eyebrow mono">Step 1 of 3</div>
+    <h1 class="step-title display">What are you looking to do?</h1>
+    <p class="step-sub">Pick the one that fits closest — we'll point you toward what people usually start with.</p>
+    <div class="options">
+      <div class="option-card" data-goal="fatloss">
+        <div class="option-icon">🔥</div>
+        <div class="option-text">
+          <div class="otitle">Lose fat</div>
+          <div class="osub">Body recomposition, weight loss support</div>
+        </div>
+      </div>
+      <div class="option-card" data-goal="recovery">
+        <div class="option-icon">💪</div>
+        <div class="option-text">
+          <div class="otitle">Train harder, recover faster</div>
+          <div class="osub">Joint and tissue recovery, performance</div>
+        </div>
+      </div>
+      <div class="option-card" data-goal="longevity">
+        <div class="option-icon">✨</div>
+        <div class="option-text">
+          <div class="otitle">Skin, aging & longevity</div>
+          <div class="osub">Skin quality, anti-aging support</div>
+        </div>
+      </div>
+      <div class="option-card" data-goal="energy">
+        <div class="option-icon">⚡</div>
+        <div class="option-text">
+          <div class="otitle">Energy & focus</div>
+          <div class="osub">Cellular energy, mental clarity</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: EXPERIENCE -->
+  <div class="step" data-step="2">
+    <div class="step-eyebrow mono">Step 2 of 3</div>
+    <h1 class="step-title display">Have you used peptides before?</h1>
+    <p class="step-sub">This just helps us point you to the right starting point.</p>
+    <div class="options">
+      <div class="option-card" data-exp="new">
+        <div class="option-icon">🌱</div>
+        <div class="option-text">
+          <div class="otitle">No, this is my first time</div>
+          <div class="osub">We'll keep it simple</div>
+        </div>
+      </div>
+      <div class="option-card" data-exp="experienced">
+        <div class="option-icon">🧬</div>
+        <div class="option-text">
+          <div class="otitle">Yes, I've used them before</div>
+          <div class="osub">Show me what's available</div>
+        </div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="nav-back" onclick="goToStep(1)">&larr; back</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: RESULT -->
+  <div class="step" data-step="3">
+    <div class="result-badge">✓ Based on your answers</div>
+    <h1 class="result-title display" id="result-title">Here's where most people start.</h1>
+    <p class="result-sub" id="result-sub"></p>
+    <div id="product-recs"></div>
+    <div class="result-ctas">
+      <a href="order.html"><button class="btn-primary">Build My Order</button></a>
+      <a href="https://t.me/primehelixbio" target="_blank"><button class="btn-secondary">Ask a Question First</button></a>
+    </div>
+    <a href="#" class="restart-link" onclick="restartQuiz(); return false;">&larr; start over</a>
+  </div>
+
+</div>
+
+<script>
+let answers = { goal: null, exp: null };
+
+function selectOption(card, group, key, value){
+  document.querySelectorAll(`[data-${group}]`).forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  answers[key] = value;
+
+  setTimeout(() => {
+    if(key === 'goal') goToStep(2);
+    if(key === 'exp') showResult();
+  }, 220);
+}
+
+document.querySelectorAll('[data-goal]').forEach(card => {
+  card.addEventListener('click', () => selectOption(card, 'goal', 'goal', card.dataset.goal));
+});
+document.querySelectorAll('[data-exp]').forEach(card => {
+  card.addEventListener('click', () => selectOption(card, 'exp', 'exp', card.dataset.exp));
+});
+
+function goToStep(n){
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.querySelector(`[data-step="${n}"]`).classList.add('active');
+  document.querySelectorAll('.progress-seg').forEach(seg => {
+    seg.classList.toggle('done', parseInt(seg.dataset.seg) <= n);
+  });
+}
+
+const recommendations = {
+  fatloss: {
+    new: [
+      { code:'RT10', name:'Retatrutide 15mg', desc:'The most talked-about fat-loss peptide right now. Hits multiple receptors for faster results — most first-timers start here.' },
+      { code:'TRZ15', name:'Tirzepatide 15mg', desc:'A dual-action GLP-1 option, well-established and effective. Great alternative if you want something more familiar.' }
+    ],
+    experienced: [
+      { code:'RT15', name:'Retatrutide 15mg', desc:'The strongest fat-loss option available. Most experienced users go straight to the 15mg dose.' },
+      { code:'TRZ15', name:'Tirzepatide 15mg', desc:'A solid dual-action companion or standalone option depending on your preference.' }
+    ]
+  },
+  recovery: {
+    new: [
+      { code:'BC5', name:'BPC-157 5mg', desc:'The most popular starting point for recovery — gentle, well-tolerated, great for joints and tissue repair.' },
+      { code:'BT5', name:'TB500 5mg', desc:'Often stacked with BPC-157 for broader recovery support. Works on muscle and connective tissue.' }
+    ],
+    experienced: [
+      { code:'CND10', name:'CJC No DAC + Ipamorelin 10mg', desc:'A GH-stimulating stack that supports recovery, muscle repair, and performance. A favorite for experienced users.' },
+      { code:'BC5', name:'BPC-157 5mg', desc:'Keep BPC-157 in the stack — pairs perfectly with CJC+Ipa for full recovery coverage.' }
+    ]
+  },
+  longevity: {
+    new: [
+      { code:'CU100', name:'GHK-Cu 100mg', desc:'One of the most well-researched peptides for skin quality, collagen support, and anti-aging. A clean first choice.' }
+    ],
+    experienced: [
+      { code:'CU100', name:'GHK-Cu 100mg', desc:'The go-to for skin, healing, and longevity support — effective at any experience level.' }
+    ]
+  },
+  energy: {
+    new: [
+      { code:'MS10', name:'MOTS-c 10mg', desc:'A mitochondrial peptide that supports cellular energy production. Simple starting point for energy and metabolic health.' },
+      { code:'IP5', name:'Ipamorelin 5mg', desc:'A gentle GH secretagogue that supports energy, recovery, and sleep quality. Easy to run as a first-timer.' }
+    ],
+    experienced: [
+      { code:'MS10', name:'MOTS-c 10mg', desc:'Cellular energy and metabolic support — stack-friendly and effective at this dose.' },
+      { code:'IP5', name:'Ipamorelin 5mg', desc:'Pairs well with MOTS-c for a well-rounded energy and recovery protocol.' }
+    ]
+  }
+};
+
+const goalLabels = {
+  fatloss: 'fat loss',
+  recovery: 'training and recovery',
+  longevity: 'skin and longevity',
+  energy: 'energy and focus'
+};
+
+function showResult(){
+  const recs = recommendations[answers.goal][answers.exp];
+  const goalLabel = goalLabels[answers.goal];
+
+  document.getElementById('result-title').textContent =
+    answers.exp === 'new' ? "Here's a simple place to start." : "Here's what fits what you're after.";
+  document.getElementById('result-sub').textContent =
+    `Based on wanting ${goalLabel}${answers.exp === 'new' ? ' and being new to peptides' : ''}, here's what people usually go with.`;
+
+  const container = document.getElementById('product-recs');
+  container.innerHTML = recs.map(rec => `
+    <div class="product-rec" style="margin-top:14px;">
+      <div>
+        <div class="pcode">${rec.code}</div>
+        <div class="pname">${rec.name}</div>
+        <div class="pdesc">${rec.desc}</div>
+      </div>
+    </div>
+  `).join('');
+
+  goToStep(3);
+}
+
+function restartQuiz(){
+  answers = { goal: null, exp: null };
+  document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+  goToStep(1);
+}
+</script>
+
+</body>
+</html>
