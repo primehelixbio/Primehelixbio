@@ -191,6 +191,16 @@
         <input class="form-input" id="f-tg" placeholder="@yourusername">
         <label class="form-label">SHIPPING ADDRESS</label>
         <textarea class="form-input" id="f-address" placeholder="Street, City, State, ZIP"></textarea>
+
+        <div style="font-size:12px; color:#8fa3ad; line-height:1.6; margin-bottom:14px; padding:14px; background:var(--bg); border:1px solid var(--line); border-radius:6px;">
+          All products are sold strictly for <strong>research purposes only</strong> — not for human consumption. We are not medical providers and do not offer medical advice. See our <a href="disclaimer.html" target="_blank" style="color:var(--green);">full disclaimer</a>.
+        </div>
+
+        <label style="display:flex; align-items:flex-start; gap:10px; margin-bottom:16px; font-size:13px; color:#c3ced4; line-height:1.5; cursor:pointer;">
+          <input type="checkbox" id="f-disclaimer" style="margin-top:3px; flex-shrink:0;">
+          I confirm I am purchasing for research purposes only, am 18+, and am not a medical patient seeking treatment.
+        </label>
+
         <button class="submit-btn" id="submit-btn">Submit Order</button>
       </div>
     </div>
@@ -409,9 +419,15 @@ document.getElementById('submit-btn').addEventListener('click', () => {
   const name = document.getElementById('f-name').value.trim();
   const tg = document.getElementById('f-tg').value.trim();
   const address = document.getElementById('f-address').value.trim();
+  const disclaimerChecked = document.getElementById('f-disclaimer').checked;
 
   if(!name || !tg || !address){
     alert('Please fill in your name, Telegram username, and shipping address.');
+    return;
+  }
+
+  if(!disclaimerChecked){
+    alert('Please confirm the research use disclaimer checkbox before submitting.');
     return;
   }
 
@@ -435,7 +451,7 @@ document.getElementById('submit-btn').addEventListener('click', () => {
 
   fetch(SCRIPT_URL, {
     method: 'POST',
-    body: JSON.stringify({ name, telegram: tg, address, orderSummary, subtotal, shipping, total }),
+    body: JSON.stringify({ name, telegram: tg, address, orderSummary, subtotal, shipping, total, disclaimerAccepted: true }),
   })
     .then(() => {
       document.getElementById('summary-content').style.display = 'none';
@@ -449,6 +465,10 @@ document.getElementById('submit-btn').addEventListener('click', () => {
     });
 });
 </script>
+
+<div style="text-align:center; padding:32px 6%; font-size:12px; color:#5a6b78; font-family:'JetBrains Mono',monospace;">
+  <a href="disclaimer.html" style="color:inherit;">Research Use Disclaimer</a> &middot; For research purposes only &middot; Not for human consumption
+</div>
 
 </body>
 </html>
